@@ -1,0 +1,937 @@
+/*
+
+Write a program to create a form to enter biodata of student. Use various components such as JLabel, JButton, JTextField, JTextArea, JCombobox, JTable, JScrollPane, JOptionButton, JCheckBox. Use GridBagLayout and GridBagConstraints to lay the components.
+-DResume.java
+
+import javax.swing.*;
+import java.awt.*;
+import javax.swing.JTable;
+import java.awt.event.*;
+
+class BioData extends JFrame implements ActionListener
+{
+    JLabel name,age,roll,address;
+    JButton btn;
+    JTextField nameText,ageText,rollText;
+    JTextArea addressArea;
+    JComboBox<String> comboBox;
+    JCheckBox[] checkBox;
+    JScrollPane scrollPane;
+
+
+    public BioData()
+    {
+
+        setVisible(true);
+        setLayout(new GridBagLayout());
+        GridBagConstraints gc = new GridBagConstraints();
+        setSize(300,400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+
+        name = new JLabel("Name ");
+        nameText = new JTextField(5);
+        gc.gridx=0;
+        gc.gridy=0;
+        getContentPane().add(name,gc);
+        gc.gridx=1;
+        gc.gridy=0;
+        getContentPane().add(nameText,gc);
+
+        age = new JLabel("Age ");
+        ageText = new JTextField(5);
+        gc.gridx=0;
+        gc.gridy=1;
+        getContentPane().add(age,gc);
+        gc.gridx=1;
+        gc.gridy=1;
+        getContentPane().add(ageText,gc);
+
+        roll = new JLabel("Roll ");
+        rollText = new JTextField(5);
+        gc.gridx=0;
+        gc.gridy=2;
+        getContentPane().add(roll,gc);
+        gc.gridx=1;
+        gc.gridy=2;
+        getContentPane().add(rollText,gc);
+
+        address = new JLabel("Address ");
+        addressArea = new JTextArea(1,5);
+        gc.gridx=0;
+        gc.gridy=3;
+        getContentPane().add(address,gc);
+        gc.gridx=1;
+        gc.gridy=4;
+        getContentPane().add(addressArea,gc);
+
+        btn = new JButton("Submit ");
+        gc.gridx=0;
+        gc.gridy=8;
+        getContentPane().add(btn,gc);
+        btn.addActionListener(this);
+
+        comboBox = new JComboBox<>(new String[]{"FY","SY","TY"});
+        gc.gridx=0;
+        gc.gridy=5;
+        getContentPane().add(comboBox,gc);
+
+        checkBox = new JCheckBox[]
+        {
+            new JCheckBox("IT"),
+            new JCheckBox("CS")
+        };
+        gc.gridx=1;
+        gc.gridy=6;
+        gc.anchor=GridBagConstraints.EAST;
+        getContentPane().add(checkBox[0],gc);
+        gc.gridx=1;
+        gc.gridy=7;
+        getContentPane().add(checkBox[1],gc);
+
+        scrollPane = new JScrollPane(addressArea);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        getContentPane().add(scrollPane);
+
+
+    }
+    public void actionPerformed(ActionEvent e)
+        {
+            if(e.getSource()==btn)
+            {
+                JOptionPane.showMessageDialog(this,"Submitted");
+            }
+        }
+
+    public static void main(String args[])
+    {
+        new BioData();
+    }
+}
+
+*/
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+/*
+
+(Creating MDI Form in SWING)Design a class, which extends JFrame and has three objects of three classes whose name are ColorPanel, CitiesPanel, and FlavourPanel. All the three classes (ColorPanel: Names of colors inside it, CitiesPanel: Names of cities inside it, and FlavourPanel- Names of Icecream flavours) extend JInternalFrame and have a method, which makes the Panel visible.The main JFrame has an object of JDesktopPane and this object holds the three panels, which are displayed on the click of the menu bar item.
+- MDIForm.java
+
+
+import javax.swing.*;
+import java.awt.event.*;
+
+public class MDIForm extends JFrame {
+    private JDesktopPane desktopPane;
+
+    public MDIForm() {
+        super("MDI Form Example");
+
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(600, 400);
+
+        // Create a JDesktopPane to hold the internal frames
+        desktopPane = new JDesktopPane();
+        setContentPane(desktopPane);
+
+        // Create menu bar
+        JMenuBar menuBar = new JMenuBar();
+        JMenu menu = new JMenu("Panels");
+        JMenuItem colorItem = new JMenuItem("Color Panel");
+        JMenuItem citiesItem = new JMenuItem("Cities Panel");
+        JMenuItem flavourItem = new JMenuItem("Flavour Panel");
+
+        colorItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                showColorPanel();
+            }
+        });
+
+        citiesItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                showCitiesPanel();
+            }
+        });
+
+        flavourItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                showFlavourPanel();
+            }
+        });
+
+        menu.add(colorItem);
+        menu.add(citiesItem);
+        menu.add(flavourItem);
+        menuBar.add(menu);
+        setJMenuBar(menuBar);
+    }
+
+    private void showColorPanel() {
+        ColorPanel colorPanel = new ColorPanel();
+        addInternalFrame(colorPanel);
+    }
+
+    private void showCitiesPanel() {
+        CitiesPanel citiesPanel = new CitiesPanel();
+        addInternalFrame(citiesPanel);
+    }
+
+    private void showFlavourPanel() {
+        FlavourPanel flavourPanel = new FlavourPanel();
+        addInternalFrame(flavourPanel);
+    }
+
+    private void addInternalFrame(JInternalFrame frame) {
+        desktopPane.add(frame);
+        frame.setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                MDIForm mdiForm = new MDIForm();
+                mdiForm.setVisible(true);
+            }
+        });
+    }
+
+    // ColorPanel class
+    class ColorPanel extends JInternalFrame {
+        public ColorPanel() {
+            super("Color Panel", true, true, true, true);
+            setSize(200, 150);
+            // Add colors to this panel
+            // Example:
+            add(new JLabel("Red"));
+            add(new JLabel("Green"));
+            add(new JLabel("Blue"));
+        }
+    }
+
+    // CitiesPanel class
+    class CitiesPanel extends JInternalFrame {
+        public CitiesPanel() {
+            super("Cities Panel", true, true, true, true);
+            setSize(200, 150);
+            // Add cities to this panel
+            // Example:
+            add(new JLabel("New York"));
+            add(new JLabel("London"));
+            add(new JLabel("Tokyo"));
+        }
+    }
+
+    // FlavourPanel class
+    class FlavourPanel extends JInternalFrame {
+        public FlavourPanel() {
+            super("Flavour Panel", true, true, true, true);
+            setSize(200, 150);
+            // Add ice cream flavors to this panel
+            // Example:
+            add(new JLabel("Vanilla"));
+            add(new JLabel("Chocolate"));
+            add(new JLabel("Strawberry"));
+        }
+    }
+}
+
+
+*/
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+/*
+Define a class that enables the drawing of freehand lines on a screen through mouse clicking and dragging. Use anonymous inner classes to implement event listeners. The drawing should be cleared when a key is pressed and the line color should be selectable. Define a test class to demonstrate the program.
+-FreeHandDrawing.java
+
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class FreeHandDrawing extends JPanel {
+    private int prevX, prevY;
+    private Color currentColor = Color.BLACK;
+
+    public FreeHandDrawing() {
+        setBackground(Color.WHITE);
+        addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                prevX = e.getX();
+                prevY = e.getY();
+            }
+        });
+
+        addMouseMotionListener(new MouseMotionAdapter() {
+            public void mouseDragged(MouseEvent e) {
+                int x = e.getX();
+                int y = e.getY();
+                Graphics g = getGraphics();
+                g.setColor(currentColor);
+                g.drawLine(prevX, prevY, x, y);
+                prevX = x;
+                prevY = y;
+            }
+        });
+
+        // Clear the drawing on key press
+        getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_C, 0), "clear");
+        getActionMap().put("clear", new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                clearDrawing();
+            }
+        });
+    }
+
+    public void setColor(Color color) {
+        currentColor = color;
+    }
+
+    public void clearDrawing() {
+        Graphics g = getGraphics();
+        g.setColor(getBackground());
+        g.fillRect(0, 0, getWidth(), getHeight());
+    }
+
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Free Hand Drawing");
+        FreeHandDrawing drawingPanel = new FreeHandDrawing();
+        frame.add(drawingPanel);
+        frame.setSize(600, 400);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+
+        // Example of changing color
+        drawingPanel.setColor(Color.RED);
+    }
+}
+
+*/
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+/*
+
+Define a class that produces an applet, which performs a simple animation of drawing a rectangle on double clicking anywhere on the screen. At the same time the previous rectangle should get deleted.
+
+import java.applet.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class DrawRectangle extends Applet implements MouseListener
+{
+    int x=0;
+    int y=0;
+    int width=50;
+    int height=50;
+
+    public void init()
+    {
+        addMouseListener(this);
+    }
+    public void paint(Graphics g)
+    {
+        g.setColor(Color.WHITE);
+        g.fillRect(0, 0, getWidth(), getHeight());
+
+        g.setColor(Color.RED);
+        g.fillRect(x, y, width, height);
+    }
+
+    public void mouseClicked(MouseEvent e)
+    {
+        if(e.getClickCount()==2)
+        {
+        x=e.getX();
+        y=e.getY();
+        repaint();
+        }
+    }
+    public void mousePressed(MouseEvent e) {
+    }
+
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    public void mouseExited(MouseEvent e) {
+    }
+    public static void main(String[] args) {
+        new DrawRectangle();
+    }
+}
+
+
+*/
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+/*
+
+Create a class called “ColouredCanvas” which extends Canvas and whose constructor takes three arguments, its color, width and height. When a “ColouredCanvas” is initialized, it should set its size and background colour as per the arguments.
+Create a class which extents JApplet and adds to the Applet a “ColouredCanvas” of red color with size 50,100.
+-ColouredCanvas.java + TestColouredCanvas.java
+
+
+
+import java.awt.*;
+
+public class ColouredCanvas extends Canvas
+{
+    Color color;
+    int width;
+    int height;
+
+    public ColouredCanvas(Color color, int width, int height)
+    {
+        this.color = color;
+        this.width = width;
+        this.height = height;
+
+        setSize(width,height);
+        setBackground(color);
+    }
+}
+
+
+import javax.swing.*;
+import java.awt.*;
+
+public class TestColouredCanvas extends JApplet {
+    public void init() {
+        ColouredCanvas canvas = new ColouredCanvas(Color.RED, 50, 100);
+        getContentPane().add(canvas);
+    }
+}
+
+
+<html>
+<title> </title>
+<applet code="",width="100",height="200"> </applet>
+</html>
+
+*/
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+/*
+ * Write an applet that initially appears with its background color equal to black. Each time the mouse is clicked, the background color gets a little brighter. 
+ColorApplet.java
+
+
+import java.applet.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class ColorApplet extends Applet implements MouseListener {
+     Color bgColor;
+
+    public void init() {
+        // Set initial background color to black
+        bgColor = Color.BLACK;
+        setBackground(bgColor);
+
+        // Add mouse listener to detect mouse clicks
+        addMouseListener(this);
+    }
+
+    public void mouseClicked(MouseEvent e) {
+        // Increment each RGB component to make the color brighter
+        int red = Math.min(255, bgColor.getRed() + 10);
+        int green = Math.min(255, bgColor.getGreen() + 10);
+        int blue = Math.min(255, bgColor.getBlue() + 10);
+
+        // Set the new background color
+        bgColor = new Color(red, green, blue);
+        setBackground(bgColor);
+    }
+
+    public void mouseEntered(MouseEvent e) {}
+    public void mouseExited(MouseEvent e) {}
+    public void mousePressed(MouseEvent e) {}
+    public void mouseReleased(MouseEvent e) {}
+
+    public static void main(String args[]) {
+        new ColorApplet();
+    }
+}
+
+*/
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+/*
+ *  Construct a simple calculator using the GrigBagLayout with minimum functionality. 
+ * -Calculator.java
+ */
+
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.*;
+
+class Calculator extends JFrame implements ActionListener
+{
+    int a = 10;
+    int b = 5;
+    JButton add,sub,mul,div;
+    JLabel resultLabel;
+
+    public Calculator()
+    {
+        setVisible(true);
+        setSize(300,300);
+        setLayout(new GridBagLayout());
+        GridBagConstraints gc = new GridBagConstraints();
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        add = new JButton("Add");
+        sub = new JButton("Subtract");
+        mul = new JButton("Multiply");
+        div = new JButton("Division");
+        resultLabel = new JLabel();
+
+        gc.gridx=0;
+        gc.gridy=0;
+        getContentPane().add(add,gc);
+
+        gc.gridx=0;
+        gc.gridy=1;
+        getContentPane().add(sub,gc);
+
+        gc.gridx=0;
+        gc.gridy=2;
+        getContentPane().add(mul,gc);
+
+        gc.gridx=0;
+        gc.gridy=4;
+        getContentPane().add(div,gc);
+
+        gc.gridx=0;
+        gc.gridy=5;
+        getContentPane().add(resultLabel,gc);
+
+        add.addActionListener(this);
+        sub.addActionListener(this);
+        mul.addActionListener(this);
+        div.addActionListener(this);
+    }
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == add) {
+            resultLabel.setText("Addition of " + a + " and " + b + " is " + (a + b));
+        } else if (e.getSource() == sub) {
+            resultLabel.setText("Subtraction of " + a + " and " + b + " is " + (a - b));
+        } else if (e.getSource() == mul) {
+            resultLabel.setText("Multiplication of " + a + " and " + b + " is " + (a * b));
+        } else if (e.getSource() == div) {
+            resultLabel.setText("Division of " + a + " and " + b + " is " + (a / b));
+        }
+    }
+    public static void main(String args[]) {
+        new Calculator();
+    }
+}
+
+*/
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+/*Write an application that creates a frame with one button. Each time the button is pressed, a modal dialog box appears that displays the current date and time.
+FrameWithModel.java */
+
+import javax.swing.*;
+import java.util.Date;
+import java.awt.*;
+import java.awt.event.*;
+
+class DateDisplay extends JFrame implements ActionListener
+{
+    JButton button;
+    public DateDisplay()
+    {
+        setSize(200,200);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
+        setLayout(new FlowLayout());
+        button = new JButton("Click");
+        button.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+               if(e.getSource()==button)
+               {
+                JOptionPane.showMessageDialog(DateDisplay.this,"Date and Time "+new Date(),"Date",JOptionPane.INFORMATION_MESSAGE);
+
+                } 
+            }
+        });
+        getContentPane().add(button);
+
+    }
+    public static void main(String[] args) {
+        new DateDisplay();
+    }
+}
+
+*/
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+
+/*
+ * Create an applet that displays the current position 
+ * of the mouse in its status bar. e. g. [20,30].  
+ As mouse is moved these numbers go on changing.
+ */
+
+import java.applet.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class MousePositionApplet extends Applet implements MouseMotionListener {
+    String mousePosition;
+    
+    public void init() {
+        mousePosition = " ";
+        addMouseMotionListener(this);
+    }
+    
+    public void paint(Graphics g) {
+        g.drawString("Current mouse position: " + mousePosition, 10, 50);
+    }
+
+        public void mouseMoved(MouseEvent e) {
+            mousePosition = "[" + e.getX() + "," + e.getY() + "]";
+            repaint();
+        }
+        public void mouseDragged(MouseEvent e){}
+    public static void main(String[] args) {
+        new MousePositionApplet();
+    }
+}
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+
+/*Create an application, which is a subclass of the 
+JFrame class with a menu on the JFrame. 
+One of the menu items is for the background color and the 
+other is for the text color. The application contains a text component 
+(any text component can be used) where user can type any text. 
+When a user presses either of the menus mentioned above, 
+three scroll bars are shown on the screen for red, green and 
+blue color components. The user can adjust the positions of these scroll bars. 
+On pressing the ‘ok’ button, the foreground or background of a text 
+component on the frame changes according to the menu choice made earlier
+- SetColorFrame.java */
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class SetColorFrame extends JFrame implements ActionListener {
+    private JTextArea textArea;
+    private JMenuItem backgroundColorItem;
+    private JMenuItem textColorItem;
+    private JScrollBar redScrollBar;
+    private JScrollBar greenScrollBar;
+    private JScrollBar blueScrollBar;
+    private JButton okButton;
+    private Color currentColor;
+
+    public SetColorFrame() {
+        setTitle("Color Chooser");
+        setSize(400, 300);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        // Initialize components
+        textArea = new JTextArea();
+        backgroundColorItem = new JMenuItem("Background Color");
+        textColorItem = new JMenuItem("Text Color");
+        redScrollBar = new JScrollBar(JScrollBar.HORIZONTAL, 0, 1, 0, 256);
+        greenScrollBar = new JScrollBar(JScrollBar.HORIZONTAL, 0, 1, 0, 256);
+        blueScrollBar = new JScrollBar(JScrollBar.HORIZONTAL, 0, 1, 0, 256);
+        okButton = new JButton("OK");
+
+        // Add action listeners
+        backgroundColorItem.addActionListener(this);
+        textColorItem.addActionListener(this);
+        okButton.addActionListener(this);
+
+        // Add components to menu
+        JMenu colorMenu = new JMenu("Color");
+        colorMenu.add(backgroundColorItem);
+        colorMenu.add(textColorItem);
+        JMenuBar menuBar = new JMenuBar();
+        menuBar.add(colorMenu);
+        setJMenuBar(menuBar);
+
+        // Layout components
+        JPanel colorPanel = new JPanel(new GridLayout(4, 1));
+        colorPanel.add(new JLabel("Red:"));
+        colorPanel.add(redScrollBar);
+        colorPanel.add(new JLabel("Green:"));
+        colorPanel.add(greenScrollBar);
+        colorPanel.add(new JLabel("Blue:"));
+        colorPanel.add(blueScrollBar);
+        colorPanel.add(okButton);
+
+        getContentPane().add(new JScrollPane(textArea), BorderLayout.CENTER);
+        getContentPane().add(colorPanel, BorderLayout.EAST);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == backgroundColorItem) {
+            currentColor = textArea.getBackground();
+        } else if (e.getSource() == textColorItem) {
+            currentColor = textArea.getForeground();
+        } else if (e.getSource() == okButton) {
+            int red = redScrollBar.getValue();
+            int green = greenScrollBar.getValue();
+            int blue = blueScrollBar.getValue();
+            Color color = new Color(red, green, blue);
+            if (currentColor != null) {
+                if (currentColor.equals(textArea.getBackground())) {
+                    textArea.setBackground(color);
+                } else if (currentColor.equals(textArea.getForeground())) {
+                    textArea.setForeground(color);
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+            SetColorFrame frame = new SetColorFrame();
+            frame.setVisible(true);
+
+    }
+}
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+/*
+
+Create an applet having the above layout (Use FlowLayout): On pressing the "CLEAR" button, the first text area should be cleared. On pressing the "COPY" button the text in the first text area should be copied to the second text area by overwriting whatever is there in second text area. The third text area should display user actions. e. g. "Copy Done", "Clear Done" etc. There is no clear action for the third text area. i. e. It should display all the user actions in sequence from the beginning of program execution. Also the user should not be able to directly type any text in second or third text area.
+LayoutApplet.java
+
+
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
+public class LayoutDemo extends JApplet implements ActionListener
+{
+    JTextArea area1,area2,area3;
+    JButton clear,copy;
+    public  LayoutDemo()
+    {
+        setLayout(new FlowLayout());
+
+        area1 = new JTextArea(5,10);
+        getContentPane().add(area1);
+        area1.setEditable(true);
+
+        area2 = new JTextArea(5,10);
+        getContentPane().add(area2);
+        area2.setEditable(false);
+
+        area3 = new JTextArea(10,20);
+        getContentPane().add(area3);
+        area3.setEditable(false);
+
+        clear = new JButton("Clear");
+        getContentPane().add(clear);
+        clear.addActionListener(this);
+
+        copy = new JButton("Copy");
+        getContentPane().add(copy);
+        copy.addActionListener(this);
+
+    }
+    public void actionPerformed(ActionEvent e)
+    {
+        if(e.getSource()==clear)
+        {
+            area1.setText("");
+            area3.append("Clear done\n");
+        }
+        else if(e.getSource()==copy)
+        {
+            area2.setText(area1.getText());
+            area3.append("Copydone\n");
+        }
+    }
+    public static void main(String[] args) {
+        new LayoutDemo();
+    }
+}
+
+*/
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+/*
+
+Create an animation with a single line, which changes its position in a clock-wise direction. This line should produce an effect of a spinning line. In the same example give option for clock-wise or anti-clock-wise spinning. Also provide start and stop buttons to start and stop the animation. Demonstrate the animation on the screen.
+- SpinningLine.java
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class SpinningLine extends JPanel implements ActionListener {
+    private int centerX, centerY;
+    private int angle = 0;
+    private boolean clockwise = true;
+    private boolean spinning = false;
+    private Timer timer;
+
+    public SpinningLine() {
+        setPreferredSize(new Dimension(400, 400));
+        centerX = getWidth() / 2;
+        centerY = getHeight() / 2;
+
+        timer = new Timer(50, this);
+
+        JButton startButton = new JButton("Start");
+        startButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                startSpinning();
+            }
+        });
+        JButton stopButton = new JButton("Stop");
+        stopButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                stopSpinning();
+            }
+        });
+        JButton clockwiseButton = new JButton("Clockwise");
+        clockwiseButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                clockwise = true;
+            }
+        });
+        JButton anticlockwiseButton = new JButton("Anticlockwise");
+        anticlockwiseButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                clockwise = false;
+            }
+        });
+
+        add(startButton);
+        add(stopButton);
+        add(clockwiseButton);
+        add(anticlockwiseButton);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        if (spinning) {
+            if (clockwise) {
+                angle = (angle + 5) % 360;
+            } else {
+                angle = (angle - 5 + 360) % 360;
+            }
+            repaint();
+        }
+    }
+
+    public void startSpinning() {
+        spinning = true;
+        timer.start();
+    }
+
+    public void stopSpinning() {
+        spinning = false;
+        timer.stop();
+    }
+
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+        centerX = getWidth() / 2;
+        centerY = getHeight() / 2;
+        int x2 = centerX + (int) (Math.cos(Math.toRadians(angle)) * 100);
+        int y2 = centerY + (int) (Math.sin(Math.toRadians(angle)) * 100);
+        g2d.drawLine(centerX, centerY, x2, y2);
+    }
+
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Spinning Line");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().add(new SpinningLine());
+        frame.pack();
+        frame.setVisible(true);
+    }
+}
+
+*/
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+/*
+
+Write an applet that draws a dot at random location in its display area every 200 milliseconds. Any dots that already exist are not erased. so that the points are connected by lines. When a new dot is added to the applet, draw a line between it and the last dot.
+-RandomLineApplet.java
+
+
+import java.applet.*;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Random;
+
+public class RandomLineApplet extends Applet implements Runnable {
+    private ArrayList<Point> points;
+    private Random random;
+
+    public void init() {
+        points = new ArrayList<>();
+        random = new Random();
+    }
+
+    public void start() {
+        Thread thread = new Thread(this);
+        thread.start();
+    }
+
+    public void run() {
+        while (true) {
+            try {
+                Thread.sleep(200); // Wait for 200 milliseconds
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            int x = random.nextInt(getWidth()); // Generate random x-coordinate
+            int y = random.nextInt(getHeight()); // Generate random y-coordinate
+            points.add(new Point(x, y)); // Add the new point
+
+            repaint(); // Repaint the applet
+        }
+    }
+
+    public void paint(Graphics g) {
+        // Draw lines between consecutive points
+        for (int i = 1; i < points.size(); i++) {
+            Point p1 = points.get(i - 1);
+            Point p2 = points.get(i);
+            g.drawLine(p1.x, p1.y, p2.x, p2.y);
+        }
+
+        // Draw dots at all points
+        for (Point point : points) {
+            g.fillOval(point.x - 2, point.y - 2, 4, 4);
+        }
+    }
+}
+
+
+*/
